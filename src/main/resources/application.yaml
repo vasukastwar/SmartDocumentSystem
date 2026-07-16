@@ -1,0 +1,52 @@
+server:
+  port: 8081
+minio:
+  address: http://localhost:9000
+  user: minioadmin
+  password: minioadmin
+  bucket: docman
+  presigned:
+    upload-url-expiry: 3600
+    download-url-expiry: 300
+kafka:
+  address: localhost:9092
+  groupId: docman
+  topic: documents
+  message-retention: 86400000
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    jackson:
+      serialization:
+        INDENT_OUTPUT: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+  temporal:
+    connection:
+      target: localhost:7233
+    workers-auto-discovery:
+      packages:
+        - "org.kamranzafar.docman.wf"
+  ai:
+    vectorstore:
+      opensearch:
+        uris: https://localhost:9200
+        username: admin
+        password: SecureP@ssword1
+        initialize-schema: true
+        index-name: docman-vector-index
+        dimensions: 1536
+        similarity: cosinesimil
+    ollama:
+      base-url: http://localhost:11434/
+      embedding:
+        options:
+          model: nomic-embed-text
+      chat:
+        model: llama3
+        temperature: 1
+        max-file-size: -1
+        options:
+          timeout: 600s
