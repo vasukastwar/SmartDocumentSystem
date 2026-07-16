@@ -1,0 +1,45 @@
+meta {
+  name: Search 2
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://localhost:9200/docman-vector-index/_search
+  body: json
+  auth: basic
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:basic {
+  username: admin
+  password: SecureP@ssword1
+}
+
+body:json {
+  {
+    "_source": ["metadata"],
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "match": {
+              "metadata.parent_document_id": "c41fbd93-cbbd-43f3-a8a4-d6bee9c5a3c1"
+            }
+          }
+        ]
+      }
+    },
+    "collapse": {
+      "field": "metadata.parent_document_id.keyword"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
